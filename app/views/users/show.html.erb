@@ -1,1 +1,10 @@
+<h1>Your favorite User </h1>
+
+
+
+<p><%= @user.username%></p>
+<p><% @user.posts.each do |post| %></p>
+    <p><%= link_to(post.title, post_path(post))%></p>   
+<%end%>
+
 

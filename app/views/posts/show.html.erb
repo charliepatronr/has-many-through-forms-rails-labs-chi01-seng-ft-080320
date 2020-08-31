@@ -1,1 +1,50 @@
+<h1>Your favorite post </h1>
+
+
+
+<p>Title: <%= @post.title%></p>
+<p>Content: <%= @post.content%></p>
+<p>Categories: </p>
+<ul>
+    <% @post.categories.each do |cat| %>
+        <li><%= cat.name%></li>   
+    <%end%>
+</ul>
+
+<p>Comments: </p>
+
+<ul>
+    <% @post.comments.each do |comment|%>
+    <li>
+        <%= comment.user.username%> says: <%= comment.content %>
+    </li>
+    <%end%>
+</ul>
+
+<p>Users who commented on post: </p>
+<ul>
+    <% @post.users.distinct.each do |user| %>
+        <li><%= link_to(user.username, user_path(user))%></li>   
+    <%end%>
+</ul>
+
+<%=form_for @post.comments.build do |f| %>
+    <%= f.hidden_field :post_id, value: @post.id %>
+    <%= f.label "Write a comment" %><br>
+    <%= f.text_area :content %><br>
+    <%= f.collection_select(:user_id, User.all, :id, :username) %><br><br>
+      <%= f.fields_for :user_attributes, @post.users.build do |user_fields|%>
+        <%= user_fields.label "Username"%><br>
+        <%= user_fields.text_field :username%><br><br>
+    <%end%>
+    <%= f.submit%>
+<%end%>
+
+
+
+   
+
+
+
+
 
